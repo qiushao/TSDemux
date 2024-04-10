@@ -9,13 +9,12 @@
 
 namespace m2tsext {
     using TDataProcessor = std::function<Result<std::monostate>(const uint8_t* data, size_t dataSize)>;
-    using TPacketData = std::array<uint8_t, PACKET_SIZE>;
 
     // Class used for MPEG-2 TS splitting
     class M2TSProcessor {
     public:
         // function that process any input packet from MPEG-2 TS
-        Result<std::monostate> processPacket(TPacketData& packetData);
+        Result<std::monostate> processPacket(const uint8_t* data, size_t dataSize);
 
         // sets the function that is called for audio data from splitted TS
         void setAudioDataProcessor(TDataProcessor&& aProcessor);

@@ -29,13 +29,13 @@ namespace m2tsext {
             });
         }
         while (m2tsStream) {
-            TPacketData data;
+            std::array<uint8_t, PACKET_SIZE> data{0};
             m2tsStream.read((char*)data.data(), data.size());
             const auto bytesRead = m2tsStream.gcount();
             if (bytesRead != 0 && bytesRead != data.size()) {
                 return Error("Error occured while reading from the input stream");
             }
-            const auto& result = mpr.processPacket(data);
+            const auto& result = mpr.processPacket(data.data(), data.size());
             if (result.isOK()) {
                 continue;
             }

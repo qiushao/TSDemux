@@ -28,8 +28,8 @@ namespace {
 
 namespace m2tsext {
 
-    Result<std::monostate> M2TSProcessor::processPacket(TPacketData& packetData) {
-        PacketHeader ph(packetData.data());
+    Result<std::monostate> M2TSProcessor::processPacket(const uint8_t* data, size_t dataSize) {
+        PacketHeader ph(data);
         if (ph.syncByte() != 'G') {
             // format of ts is corrupted
             return Error("Wrong sync byte error: " + ph.syncByte());;
