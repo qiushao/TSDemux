@@ -121,7 +121,8 @@ namespace m2tsext {
         uint16_t& remainingPESLength) {
         const uint8_t* data = packetHeader.payloadData();
         uint16_t dataSize = packetHeader.payloadSize();
-        if (packetHeader.payloadUnitStartIndicator()) {
+        auto payloadUnitStart = packetHeader.payloadUnitStartIndicator();
+        if (payloadUnitStart) {
             PESPacketHeader pes(packetHeader.payloadData());
             data += pes.headerLength();
             remainingPESLength = pes.packetDataSize();
@@ -131,7 +132,7 @@ namespace m2tsext {
             dataSize = std::min(dataSize, remainingPESLength);
             remainingPESLength -= dataSize;
         }
-        return dataProcessor(data, dataSize);
+        return dataProcessor(data, dataSize, payloadUnitStart);
     }
 
     Result<std::monostate> M2TSProcessor::processAudioPacket(const PacketHeader& packetHeader)

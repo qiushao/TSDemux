@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace m2tsext {
-    using TDataProcessor = std::function<Result<std::monostate>(const uint8_t* data, size_t dataSize)>;
+    using TDataProcessor = std::function<Result<std::monostate>(const uint8_t* data, size_t dataSize, bool payloadUnitStart)>;
 
     // Class used for MPEG-2 TS splitting
     class M2TSProcessor {

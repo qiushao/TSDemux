@@ -11,7 +11,7 @@ namespace m2tsext {
         std::ostream& outAudioStream) {
         M2TSProcessor mpr;
         if (outAudioStream) {
-            mpr.setAudioDataProcessor([&outAudioStream](const uint8_t* data, size_t dataSize) -> Result<std::monostate> {
+            mpr.setAudioDataProcessor([&outAudioStream](const uint8_t* data, size_t dataSize, bool payloadUnitStart) -> Result<std::monostate> {
                 outAudioStream.write((char*)data, dataSize);
                 if (!outAudioStream.good()) {
                     return Error("Error writing audio stream occured");
@@ -20,7 +20,7 @@ namespace m2tsext {
             });
         }
         if (outVideoStream) {
-            mpr.setVideoDataProcessor([&outVideoStream](const uint8_t* data, size_t dataSize) -> Result<std::monostate> {
+            mpr.setVideoDataProcessor([&outVideoStream](const uint8_t* data, size_t dataSize, bool payloadUnitStart) -> Result<std::monostate> {
                 outVideoStream.write((char*)data, dataSize);
                 if (!outVideoStream.good()) {
                     return Error("Error writing video stream occured");
